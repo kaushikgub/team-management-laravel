@@ -24,7 +24,7 @@ class TeamRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:teams,name,' . request()->segment(2),
+            'name' => 'required|unique:teams,name,' . request()->segment(3),
             'country' => 'required',
             'couch' => 'required'
         ];

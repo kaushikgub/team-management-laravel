@@ -24,7 +24,7 @@ class MemberRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:members,name,' . request()->segment(2),
+            'name' => 'required|unique:members,name,' . request()->segment(3),
             'age' => 'required|numeric',
             'number' => 'required'
         ];
