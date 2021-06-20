@@ -12,7 +12,7 @@ class CountryController extends Controller
     {
         try {
             $countries = Http::get('https://restcountries.eu/rest/v2/all')->json();
-            $countries = collect($countries)->map(function ($country){
+            $countries = collect($countries)->take(10)->map(function ($country){
                 return [
                     'name' => $country['name'] ?? 'N/A',
                     'capital' => $country['capital'] ?? 'N/A'

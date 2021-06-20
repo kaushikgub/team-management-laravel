@@ -26,7 +26,8 @@ class MemberRequest extends FormRequest
         return [
             'name' => 'required|unique:members,name,' . request()->segment(3),
             'age' => 'required|numeric',
-            'number' => 'required'
+            'number' => 'required',
+            'team_id' => 'required'
         ];
     }
 }
