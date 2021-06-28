@@ -8,6 +8,7 @@ use App\Models\Team;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class MemberController extends Controller
 {
@@ -56,10 +57,13 @@ class MemberController extends Controller
     public function store($teamId, MemberRequest $request): JsonResponse
     {
         try {
-            $member = Member::query()->create($request->all());
+            DB::beginTransaction();
+            Member::query()->where('team_id', $teamId)->delete();
+            Member::query()->insert($request->all());
+            DB::commit();
             return response()->json([
                 'status' => 'success',
-                'data' => $member,
+                'data' => null,
                 'message' => 'Created Successfully'
             ], Response::HTTP_CREATED);
         } catch (\Exception $exception){
@@ -134,13 +138,14 @@ class MemberController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param int $teamId
+     * @param $memberId
      * @return JsonResponse
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(int $teamId, $memberId): JsonResponse
     {
         try {
-            Member::query()->find($id)->delete();
+            Member::query()->find($memberId)->delete();
             return response()->json([
                 'status' => 'success',
                 'data' => null,
